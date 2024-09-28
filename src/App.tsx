@@ -24,6 +24,7 @@ function App() {
                     },
                 });
                 const json = await response.json();
+                console.log(json)
                 setExpenses(json);
             } catch (err) {
                 console.log(err);
@@ -35,31 +36,34 @@ function App() {
     return (
         <div id="template-text">
             <h1>Expenses</h1>
-            <hr className="solid"/>
+            <hr className="separator"/>
             <table>
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Date</th>
                     <th>Merchant</th>
                     <th>Amount</th>
-                    <th>Description</th>
-                    <th>Date</th>
                     <th>Category</th>
+                    <th>Description</th>
                     <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
-                {expenses.map((expense) => (
-                    <tr key={expense.id}>
-                        <td>{expense.id}</td>
-                        <td>{expense.merchant}</td>
-                        <td>{expense.amount}</td>
-                        <td>{expense.description}</td>
-                        <td>{new Date(expense.date).toLocaleString()}</td>
-                        <td>{expense.category}</td>
-                        <td>{expense.status}</td>
-                    </tr>
-                ))}
+                {expenses.map((expense) => {
+                    const date = new Date(expense.date);
+                    const month = date.toLocaleString('default', {month: 'short'});
+                    const day = date.getDate();
+                    return (
+                        <tr key={expense.id}>
+                            <td>{`${month} ${day}`}</td>
+                            <td>{expense.merchant}</td>
+                            <td>{expense.amount}</td>
+                            <td>{expense.category}</td>
+                            <td>{expense.description}</td>
+                            <td>{expense.status}</td>
+                        </tr>
+                    );
+                })}
                 </tbody>
             </table>
         </div>
